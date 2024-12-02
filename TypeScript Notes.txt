@@ -1,4 +1,5 @@
 //============================= TypeScript Notes ==================================
+official website to refer for typescript : https://www.typescriptlang.org/
 
 Why to use the typeScript ? 
                         1) because typescript provide the functionality of the type-safety hence we have to use it within the javascript code make the type safety / means giving the data-type to the variables 
@@ -51,3 +52,211 @@ Diagram How it works :
    Syntax Checking            Type Checking            Transpilation (conversion)
                               (ensuring types match)
 */
+
+
+
+
+
+//===================================== Ways to Install or setup the typescript in your code ============================================
+
+1) for system wise like (windows / mac) : 
+2) for project level (how to setup) : this we will see at the project time 
+
+
+
+1) for system wise like (windows) : 
+
+Step 1) install the typescript globally using the below command (in cmd as adminstrator) : 
+
+    command : npm install -g typescript 
+
+
+Step 2) check the version of the typescript that you have installed 
+
+    command : npx tsc -v
+
+
+Step 3) Now open the one folder in the vs code and create the one typescript file like intro.ts 
+        //add few line of code in it 
+        //to execute that code and convert it into the javascript file use the below command
+
+    command : npx tsc fileName.ts 
+    example : npx tsc intro.ts
+
+step 4) then you will get the javascript file with same name with ,js extension where all the typescript code is converted into the javascript 
+
+
+
+
+
+
+
+//=========================================== types In TypeScript  ====================================
+
+
+
+                        Types
+                        ├── Primitive Types
+                        │   ├── number
+                        │   ├── string
+                        │   ├── boolean
+                        │   ├── bigint
+                        │   ├── symbol
+                        │   └── null & undefined
+                        ├── Complex Types
+                        │   ├── object
+                        │   ├── array
+                        │   ├── tuple
+                        │   └── function
+                        ├── Special Types
+                        │   ├── any
+                        │   ├── unknown
+                        │   ├── never
+                        │   └── void
+                        ├── Union and Intersection Types
+                        ├── Literal Types
+                        ├── Enums
+                        └── Custom Types
+                            ├── Interfaces
+                            └── Type Aliases
+
+
+
+
+
+//========================== All Types with one example for each ====================================
+
+            // 1. Primitive Types
+            // ----------------------
+
+            // a) number
+            let num: number = 42; // Any numeric value
+
+            // b) string
+            let str: string = "Hello, TypeScript"; // Any string value
+
+            // c) boolean
+            let isDone: boolean = true; // Either true or false
+
+            // d) bigint
+            let bigInt: bigint = 100n; // Big integers
+
+            // e) symbol
+            let sym: symbol = Symbol("unique"); // Unique identifiers
+
+            // f) null & undefined
+            let n: null = null; // Represents no value
+            let u: undefined = undefined; // Variable not assigned
+
+            // 2. Complex Types
+            // ----------------------
+
+            // a) object
+            let obj: object = { name: "John", age: 30 }; // Any object
+
+            // b) array
+            let arr: number[] = [1, 2, 3]; // Array of numbers
+
+            // c) tuple
+            let tuple: [number, string] = [1, "One"]; // Fixed-length array with specified types
+
+            // d) function
+            function greet(name: string): string {
+            return `Hello, ${name}`;
+            }
+
+            // 3. Special Types
+            // ----------------------
+
+            // a) any
+            let anything: any = "Can be anything"; // Disables type checking
+
+            Note : if you not give the type then by-default it will take any (so avoid this situation) because of the type-inference 
+
+            // b) unknown
+            let unknownType: unknown; // Value type is unknown
+
+            // c) never
+            function throwError(message: string): never {
+            throw new Error(message); // Function never returns
+            }
+
+            // d) void
+            function logMessage(message: string): void {
+            console.log(message); // Function doesn't return a value
+            }
+
+            // 4. Union and Intersection Types
+            // ----------------------
+
+            // Union
+            let id: string | number = 123; // Can be either string or number
+
+            // Intersection
+            interface Person {
+            name: string;
+            }
+            interface Employee {
+            employeeId: number;
+            }
+            let employee: Person & Employee = { name: "Alice", employeeId: 101 };
+
+            // 5. Literal Types
+            // ----------------------
+            let specificString: "hello" = "hello"; // Only "hello" is allowed
+
+            // 6. Enums
+            // ----------------------
+            enum Direction {
+            Up,
+            Down,
+            Left,
+            Right,
+            }
+            let dir: Direction = Direction.Up; // Enum value
+
+            // 7. Custom Types
+            // ----------------------
+
+            // a) Interface
+            interface Car {
+            make: string;
+            model: string;
+            }
+            let myCar: Car = { make: "Toyota", model: "Corolla" };
+
+            // b) Type Alias
+            type Point = {
+            x: number;
+            y: number;
+            };
+            let point: Point = { x: 10, y: 20 };
+
+
+
+
+//========================================= Type inference ===========================================
+
+
+
+Type inference : 
+                in TypeScript refers to the ability of the TypeScript compiler to automatically 
+determine the type of a variable, function, or expression based on the value or context in which 
+it is used, without explicitly specifying a type. This feature simplifies code by reducing the need 
+for explicit type annotations, while still maintaining strong typing.
+
+
+
+General Note While writing the typescript take care : 
+                                i) do not use any as the type / avoid such cases where any type is getting used 
+
+
+
+
+
+
+
+
+//======================================= Functions in typescript ===========================
+
+
