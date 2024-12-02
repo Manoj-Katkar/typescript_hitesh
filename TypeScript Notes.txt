@@ -1,0 +1,53 @@
+//============================= TypeScript Notes ==================================
+
+Why to use the typeScript ? 
+                        1) because typescript provide the functionality of the type-safety hence we have to use it within the javascript code make the type safety / means giving the data-type to the variables 
+                        2) so because of the above feature we can build the our application with the type-safety 
+                        3) because it analyze the code as we type thats it in short 
+                        4) in typescript the code length will become more means the no of ines will get increased but it is going to be less prone error free code
+                        5) typescript is the development tool , because your project still runs on the javascript 
+                        6) typescript is the layer on top of the javascript
+                        7) it helps to write the less error free code which is more scalable that is easily understandable and maintainable 
+                        8) there are few new keywords are there like union , interface , any and more we will se it one by one  
+
+Two major Extensions used : 
+                    1) .tsx = typescript code with the jsx 
+                    2) .ts = typescript code 
+
+
+What is typescript Is and What typescript is NOT  : 
+What is typescript Is : 
+                    i) it does the static type-checking for you (this is the one main job typeScript does) like example : java , goLang 
+                    ii) for example : (how it helps to track the errors at the development stage only)
+
+                              suppose I have the one object and in that object one property is  mensioned with string data-type but I am trying to give the new value as the number format using 
+                              the javascript then it should throw the error so at the development stage only I can handle the errors in such cases the typescript play very inportant role  
+
+Why to transform the javascript code into the typescript code ?
+when to use the typescript in your project ? 
+                        1) if your project is small having the 4 to 5 files in it then it does not make any sense to use the javascript
+                        2) you have to use the typescript the big projects which are having more files / complex logic / to give safety check for the data type 
+
+
+Note : 
+    1) All the code that we write in the typescript is finally get compiled into the javascript 
+    2) it allows the functionality to write the javascript with little bit accurate behaviour so the errors will become less then use the typescript in your peoject 
+    3) for the typescript files you have to use the .ts or .tsx extension (we prefer .tsx)
+
+
+
+Diagram How it works : 
+
+/*
+  TypeScript Compilation Process:
+
+  +---------------------+       +--------------------+       +-------------------+
+  |  TypeScript Code    | --->  |  TypeScript        | --->  |  JavaScript Code  |
+  |  (source.ts file)   |       |  Compiler (TSC)    |       |  (output.js file) |
+  +---------------------+       +--------------------+       +-------------------+
+           |                           |                          ^
+           |                           |                          |
+           v                           v                          |
+   Syntax Checking            Type Checking            Transpilation (conversion)
+                              (ensuring types match)
+*/
