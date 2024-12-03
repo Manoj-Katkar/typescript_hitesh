@@ -38,7 +38,7 @@ console.log(isLoggedIn);
 
 // any how works 
 
-let name;    //because of the type inference it will have the type as the any 
+let name;    //because of the type inference it will have the type as the any because I have not specified the which type of the data that variable should hold 
 
 
 function getName() {

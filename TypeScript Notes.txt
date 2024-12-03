@@ -235,7 +235,7 @@ step 4) then you will get the javascript file with same name with ,js extension 
 
 
 
-//========================================= Type inference ===========================================
+//========================================= Type inference (ability to determine the type of data automatically)  ===========================================
 
 
 
@@ -256,7 +256,529 @@ General Note While writing the typescript take care :
 
 
 
+//================================== any ==========================================
+
+Note : 
+       i) when we not define the type to the variable and we pass the any type data in that variable then internally typescript asign the any as the type to that variable because of the type inferance 
+
+When to use it : 
+                1) when I want to turn off the type-cheking for that particular variable then I have to assign the any as the type so the typescript will ignore that variable for the type-checking  
+       
+
+Example : 
+
+            // a) any
+            let anything: any = "Can be anything"; // Disables type checking
+
+            Note : if you not give the type then by-default it will take any (so avoid this situation) because of the type-inference 
+
+
+
+
+
+
+============================================= noImplicitAny ==========================================
+
+When to use the noImplicitAny : 
+                            1) when you want that not any variable should have the any as the type be-default then at 
+                                such usecases it should throw the error of variable is having the any as the 
+                                type at compilation time only then I have to use the noImplicitAny.
+
+
+
+// ============================================ any VS noImplicitAny ===================================
+
+For More context about any and noImplicitAny refer the below thing : 
+
+/*
+| Feature/Aspect       | `any`                              | `noImplicitAny`                   |
+|----------------------|------------------------------------|------------------------------------|
+| **Definition**       | A type that disables TypeScript's | A TypeScript compiler option that |
+|                      | type-checking for a variable.     | enforces explicit typing for      |
+|                      | It can represent any type.        | variables and function parameters.|
+|----------------------|------------------------------------|------------------------------------|
+| **Purpose**          | Used to opt out of type checking  | Used to ensure type safety by     |
+|                      | for specific variables or values. | requiring explicit type annotations.|
+|----------------------|------------------------------------|------------------------------------|
+| **Behavior**         | No compile-time type checking is  | Throws a compile-time error if    |
+|                      | applied; all operations are       | a variable or function parameter  |
+|                      | allowed.                          | is implicitly assigned the `any`  |
+|                      |                                   | type without an explicit type.    |
+|----------------------|------------------------------------|------------------------------------|
+| **Flexibility**      | Highly flexible, can assign any   | Enforces strict typing, which     |
+|                      | value without error.              | reduces flexibility but improves  |
+|                      |                                   | code quality and maintainability. |
+|----------------------|------------------------------------|------------------------------------|
+| **Use Case**         | When type information is          | When strict type checking is      |
+|                      | unavailable, or dynamic content   | desired to avoid unintended       |
+|                      | is being handled.                 | behaviors and errors in the code. |
+|----------------------|------------------------------------|------------------------------------|
+| **Impact on Type     | Can lead to runtime errors if     | Improves type safety, reducing    |
+| Safety**             | types are incorrectly assumed.    | the chance of runtime errors.     |
+|----------------------|------------------------------------|------------------------------------|
+| **Performance**      | Faster compilation due to less    | May slightly increase compilation |
+|                      | strict checking.                  | time due to strict checking.      |
+|----------------------|------------------------------------|------------------------------------|
+| **When to Use**      | - Working with legacy JavaScript  | - Writing new TypeScript projects |
+|                      |   codebases.                      |   or refactoring existing code.   |
+|                      | - Handling third-party libraries  | - Enforcing code quality and      |
+|                      |   without type definitions.       |   maintainability.                |
+|----------------------|------------------------------------|------------------------------------|
+| **When Not to Use**  | - In critical systems where       | - In quick prototypes or small    |
+|                      |   type safety is paramount.       |   scripts where strict typing may |
+|                      | - When working in a team that     |   be overkill.                    |
+|                      |   prioritizes strict type safety. |                                    |
+*/
+
+
+
+
 
 //======================================= Functions in typescript ===========================
 
+Handling the functions in typescript 
+                i) In below code I have handled that within the function the parameters that I am reciving that should have which type and the value function is returning that value should have which type 
+
+Code : 
+    Named and arrow functions implemented code 
+
+
+// Learning how to handle the types in the functions for the parameters and also assigning the type for each function return value 
+// num:number = this is the type checking for the parameter that below function is reciving 
+// (num:number):number =  and this second type cheking re-present the return type for named function 
+
+
+    function addTwoNumbers(num: number): number {
+        return (num + 10);
+    }
+
+    let ans = addTwoNumbers(50);
+
+    console.log(ans);
+
+
+
+// now writing the one arrow function that will conver the userName to uppercase 
+
+    const getUpper = (userName: string): string => {
+        return userName.toLocaleUpperCase();
+    }
+
+    let lowerCaseUserName = getUpper("manoj");
+
+
+
+//================= How to pass the default parameter valeu in the typescript functions ============
+
+
+Code : 
+
+
+//How to pass the default parameter valeu in the typescript functions
+
+    const signUpUser = (userName: string, userEmail: string, isPaid: boolean = false): boolean => {   //!here for isPaid we have given the default value as the false 
+        if (userEmail === "abc@gmail.com") {
+            return true; // allow the user to login 
+        }
+        else {
+            return false;
+        }
+    }
+
+
+    const statusOfUser = signUpUser("Manoj", "abc@gmail.com");  //!see here I have not passed the isPaid value still it is by-default taking because in the function defination only I have mensioned That 
+
+    console.log(statusOfUser);
+
+
+
+
+
+
+
+
+
+
+//==================================== Function returning the more than one type values (How to Handle it) ====================================
+
+Note : handle with the union types 
+
+// Example : 
+
+//I have to handle it with the union type 
+
+const getValue = (name: string): string | number => {
+    if (name === "Manoj") {
+        return `${name} is learning Typescript`;
+    }
+    return 100;
+}
+
+
+const ans2 = getValue("Manoj");
+
+
+
+
+
+// ============================== writing the logging error function on typescript (while working in team how to console.log the errors) =============
+
+
+
+
+
+// 1) first Approach : 
+//this below will be used by one developer at a time to debug the application errors 
+const consoleError = (errorMessage: string): void => {
+    console.log(errorMessage);
+
+}
+
+
+// 2) second Approach using never (prefer this approach)
+// this below funtion will be used to log the errors while working accoross the team of the around 20 to 40 developers 
+// Note :  if any function is not returning the value then I have to use the special types of the typescript that is (never)
+
+const handleError = (errorMessage: string): never => {
+    throw new Error(errorMessage);                      //in This way I have to log the errors 
+}
+
+
+
+
+
+
+
+//================================= Differant behaviours of the objects in the typescript =========================
+
+Note : we do not perfer the below some part to create the objects in typescript rather first we 
+declare the each key type for its corresponding value and then create the object 
+
+
+
+
+// lets Now I am creating the simple user 
+
+const User = {
+    name: "Manoj",
+    email: "manoj@abc.com",
+    isActive: false
+}
+
+
+// creating the one method to create the object which will have the All the properties of the User Object 
+const createUser = ({ name: string, isPaid: boolean }) => {
+
+}
+
+//! directlly adding the un-known key will throw the error 
+
+// createUser({ name: "Manoj", isPaid: true, email: "abc@gmail.com" });  //!now here if I will pass the key which is not defined in the function parameter then it will throw the error 
+
+
+// but if we create the another object then give that in the createUser method it will not throw the error 
+
+let newUser = {
+    name: "Manoj",
+    isPaid: true,
+    email: "abc@gmail.com"   //^this is not mensioned on the function deination still it is getting allowed to add using the same method that is createUser
+}
+
+createUser(newUser);     //!now this will not throw the error this is the odd behaviour of the objects in typescript 
+
+
+
+// now the example of the function which is returning the object itself 
+// in the below function it is taking the prameter in the object format and and also returing the object only that I have explicitlly mensioned it 
+// should return the object with the following keys with corresponding value 
+// { courseNameFinal: string, courseFeesFinal: number }
+
+
+const createCourse = ({ courseName: string, courseFees: number }): { courseNameFinal: string, courseFeesFinal: number } => {
+    return { courseNameFinal: string, courseFeesFinal: number }
+}
+
+
+createCourse({ courseName: "react-native", courseFees: 1000 });  //calling the function
+
+
+
+
+//================== We use below way to create the objects in the typeScript ========================
+
+Note : there are multiple options to create the type-checking objects in the typescript 
+
+few ways are : 
+            1) using the type Aliases 
+            2)using the interface
+
+
+
+====================================== 1) using the type Aliases  ====================================
+
+Note : 1) means we are creating the data-type using Aliases internally and we want the value that will come to us that should be in that format only 
+       2) means using the type we can able to create theour custom data-type in typescript 
+        3) we can create the our own any dataType and also give the Aliase like below 
+                Example: const myString = string 
+
+Code : 
+
+
+
+type User2 = {
+    name: string,
+    email: string,
+    isActive: boolean
+}
+
+
+const createNewUser2 = (user: User2): User2 => {   //here we are accepting the user of the type User2 and also wanted this function should return the object having the same properties as the User 
+
+    return {
+        name: user.name,
+        email: user.email,
+        isActive: user.isActive
+    }
+}
+
+const newllyCreatedUser2 = createNewUser2({ name: "Manoj", email: "abc@gmail.com", isActive: false });
+
+console.log(newllyCreatedUser2);
+
+export { }
+
+
+
+
+
+//================================ New Concepts ==========================
+
+
+// Concepts Covered 
+// 1) readonly (keyword)
+// 2) ? (literal question mark) (means that property will become optional )
+// 3) useCase scenario of above concepts 
+
+
+//! 1) readonly (keyword)
+
+// when to use it 
+//     when we want that particular property that is comming from the backend in any object using that only tables 
+// of the databases are designed then that id or unique property should not get changed for such cases we will make that property as the read only 
+
+
+type User = {
+    readonly _id: string,               //!this will be only readable cannot update this value because of the readonly 
+    name: string,
+    email: string,
+    isActive: boolean,
+    creditCardDetails?: number          //!now this became optional means it is not compulsory that each User should have the credit card details 
+}
+
+
+// now creating the user with the variable not with the function 
+
+const myUser: User = {
+    _id: "123",
+    name: "abc",
+    email: "abc@gmail.com",
+    isActive: true
+}
+
+// Now see I can change the all the values of the properties of the object myUser but cannot change the id
+
+myUser.name = "manoj"; //^this I can able to change 
+
+myUser.isActive = false;  //^this I can able to change 
+
+
+// !but this I cannot able to change because it is readonly 
+
+//myUser._id = "456";   //error : Cannot assign to '_id' because it is a read-only property
+
+
+
+
+
+//^ Now lets see the how readonly works on the array in typescript 
+// !For Array 
+
+type Car = {
+    readonly _id: Array<string>; // each element represent =  string (that I have to mension)
+    name: string,
+    companyName: string,
+    isRunning: boolean
+}
+
+
+const Audi: Car = {
+    _id: ["1542"],
+    name: "Q-7",
+    companyName: "Audi",
+    isRunning: true
+}
+
+//! Note : for the readonly if there is array then we can add the values in 
+//! it but we cannot re-assign the new Array to it means readyonly for array 
+//! gives the functionality to add the array elements to it but re-assigning the array elements is not allowed 
+
+
+console.log("before adding the elements : ", Audi._id);
+
+
+Audi._id.push("45");
+Audi._id.push("78");
+
+console.log("Audi._id array after ading elements : ", Audi._id);
+
+
+//Audi._id = [];    //!this is re-assigning the entire new Array is not allowed 
+
+
+
+
+//! 3) useCase scenario of above concepts 
+
+
+// lets applying the type checking for the payments data of the user 
+
+type cardNumber = {
+    cardNumber: string
+}
+
+
+type cardDate = {
+    cardDate: string
+}
+
+type cardCvv = {
+    cardCvv: string
+}
+// !(&) this will merge the all the object types into the one object type 
+
+type cardDetails = cardNumber & cardDate & cardCvv;   //this (&) will merge the all the details 
+
+let hdfcCard: cardDetails = {
+    cardNumber: "456",
+    cardDate: "01/12/2024",
+    cardCvv: "08759"
+}
+
+
+console.log("hdfc card details : ", hdfcCard);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// ================================== Union Types in TypeScript (Indetail)==================
+
+Note : Union in typescript allows you to give the multiple types to the any variable or the function using the (|) this symbol 
+
+
+
+// Unions gives the functionality to add the more than one type to the variable or the function return type 
+
+let indiaScore: (number | string | boolean) = 500;   //means I can assign the any of the three data types values to this variable 
+
+
+indiaScore = "450";
+
+indiaScore = true;
+
+
+
+// ^ Scenario suppose we will have the one user in the company that is User also and it beomes Admin Also 
+
+type User = {
+    name: string,
+    id: number
+}
+
+
+
+type Admin = {
+    userName: string,
+    id: number
+}
+
+
+// ^Now I wanted to make the user as the myself who will be also the user and also be the admin when it is neccessary 
+
+
+let Manoj: User | Admin = {
+    name: "manoj",
+    id: 98,
+}
+
+// ^Now also want to make him as the admin 
+
+Manoj = {
+    userName: "Admin-Manoj",
+    id: 75
+}
+
+
+
+
+
+
+// Unions with the functions 
+
+const getDbId = (id: string | number): void => {
+    if (typeof (id) === "string") {
+        console.log("id is in string format");
+
+    }
+    else if (typeof (id) === "number") {
+        console.log("id is in number format");
+
+    }
+}
+
+getDbId("45");
+getDbId(154);
+
+
+
+
+
+
+
+
+//^ ========================= How to declare the Arrays in typescript with the type specific ====================
+
+const ArrayInNumber: number[] = [10, 20, 40, 158];   //only numbers data type is allowed 
+
+const ArrayInString: string[] = ["45", "25", "63", "41"];  //only string data type is allowed 
+
+// ! now array with the mix type of the data in the typescript 
+
+const mixedtypeArray: (number | string)[] = ["Hello", 20, "element", "98"];  //!in this way I can create the mix data type array in the typescript 
+
+
+
+export { }
+
+
+
+
+
+
+
+
+
+
+
+//===================================== tuples in typescript ===================================
 
