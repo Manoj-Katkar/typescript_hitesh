@@ -510,7 +510,7 @@ Note : there are multiple options to create the type-checking objects in the typ
 
 few ways are : 
             1) using the type Aliases 
-            2)using the interface
+            2) using the interface
 
 
 
@@ -547,6 +547,148 @@ console.log(newllyCreatedUser2);
 
 export { }
 
+
+
+
+
+
+
+
+
+//=============================== 2) using the interface =====================================
+
+// giving the type checking with the interface 
+
+interface User {
+    readonly dbId: number,                          //! this data will be read only you cannot modify this 
+    name: string,
+    userId: number,
+    userEmail: string,
+    googleId?: string,                               //!optional that each user can have or it cannot have 
+    // &below is the way How I can define the method in the interface 
+    startTrail: () => string,    //^ this method should return the string hence it in mensioned in the interface its return type checking 
+
+    // lets say for user I want to give the coupon then using the following way I can add method to it 
+    // which will take the one parameter that is couponName 
+
+    getCoupon: (couponName: string) => number
+}
+
+// now lets create the Newuser of the type User 
+
+const newUser: User = {
+    dbId: 10,
+    name: "Manoj",
+    userId: 1245,
+    userEmail: "abc@gmail.com",
+    startTrail: () => {
+        return "trail is started"
+    },
+    getCoupon: (couponName: string) => {
+        // Any string is accepted for `couponName`
+        console.log(`Coupon applied: ${couponName}`);
+        // now I want to give the 50 % off 
+        return 50;
+    }
+
+}
+
+// newUser.dbId = 45;   //^throw the error 
+
+
+// Example usage
+console.log(newUser.getCoupon("React-Native-Course")); // Works with any string
+console.log(newUser.getCoupon("JavaScript-Course"));    // Works with any string
+
+
+console.log(newUser);
+
+
+
+
+
+
+
+
+
+
+//===============================(IMP) Differance between the interface and the type in typescript (How interface use extends and type use & for merging the object type checking with their properties and methods ) ======================
+
+// -----------------------------------------------------------------------
+// Difference Between `interface` and `type` in TypeScript
+// -----------------------------------------------------------------------
+
+// | **Aspect**             | **interface**                                                                 | **type**                                                                                           |
+// |-------------------------|-------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------|
+// | **Primary Use**         | Used to define object shapes, methods, and class contracts.                  | Used to define types, including primitives, object shapes, unions, intersections, and aliases.    |
+// | **Extending**           | Supports extension with `extends`. An interface can extend other interfaces. | Uses intersection (`&`) for combining types but cannot extend in the same way as `interface`.     |
+// | **Reopening / Adding**  | Interfaces allow reopening, letting you add new properties after the initial | Types do not allow reopening; once declared, they cannot be modified.                             |
+// | **New Properties**      | declaration.                                                                 |                                                                                                   |
+// | **Example**             | ```typescript                                                               | ```typescript                                                                                     |
+// |                         | interface A { propA: string; }                                              | type A = { propA: string; };                                                                      |
+// |                         | interface A { propB: number; }  // Adds new property                        | type A = { propB: number; }; // Error: Duplicate identifier 'A'                                   |
+// |                         | const obj: A = { propA: "hello", propB: 42 };                               |                                                                                                   |
+// | **Default Use Case**    | Use for defining object shapes, contracts, and reusable structures (e.g.,    | Use for combining types, creating union types, or defining complex aliases (e.g., primitives).    |
+// |                         | API responses).                                                             |                                                                                                   |
+// | **Declaration Merging** | **Supported**: Multiple declarations with the same name are merged.          | **Not Supported**: `type` declarations cannot be merged.                                          |
+// | **Union Types**         | Not supported. Cannot create unions directly.                                | **Supported**: Can define union types (e.g., `type ID = string | number;`).                       |
+// | **Intersection Types**  | Limited: Use `extends` for combining interfaces.                             | **Supported**: Use `&` for intersections (e.g., `type Person = User & Admin;`).                   |
+// | **Type Aliases**        | Not applicable.                                                              | Can alias primitives, tuples, and other complex types (e.g., `type Pair = [number, string];`).     |
+// | **Object Literals**     | Better readability for object literals and contracts.                        | Flexible but less specific when used for advanced types.                                          |
+// | **Performance**         | Slightly more performant for large projects due to its specific use case.    | Slightly slower for very large projects due to broader flexibility.                               |
+// | **Default Use Case**    | Preferred for defining object structures and APIs (e.g., classes, props).    | Preferred for unions, intersections, or type aliases for complex scenarios.                       |
+
+// -----------------------------------------------
+// Usage Examples
+// -----------------------------------------------
+
+// **1. Extending**
+// Interface example:
+interface User {
+    name: string;
+    email: string;
+}
+
+interface Admin extends User {
+    adminRights: string[];
+}
+
+// Type example:
+type UserType = {
+    name: string;
+    email: string;
+};
+
+type AdminType = UserType & {
+    adminRights: string[];
+};
+
+// **2. Declaration Merging**
+// Interface supports merging:
+interface MergedUser {
+    name: string;
+}
+
+interface MergedUser {
+    email: string;
+}
+
+// Type does not support merging:
+// type MergedType = { name: string };
+// type MergedType = { email: string }; // Error
+
+// **3. Union Types**
+// Only supported with `type`:
+type ID = string | number; // Valid
+
+// **4. Intersection Types**
+// Combine types using `&`:
+type Address = { city: string };
+type Person = UserType & Address;
+
+// **5. Type Aliases**
+type Primitive = string;       // Alias for a primitive type
+type Pair = [number, string];  // Alias for a tuple
 
 
 
@@ -781,4 +923,534 @@ export { }
 
 
 //===================================== tuples in typescript ===================================
+
+Right now actual coding this is skiiped I will come to this once I implement the What I learned in typescript into the shuff 
+
+
+
+
+
+
+
+
+
+
+//====================================================== Interface In typescript ===========================================
+
+
+// giving the type checking with the interface 
+
+interface User {
+    readonly dbId: number,                          //! this data will be read only you cannot modify this 
+    name: string,
+    userId: number,
+    userEmail: string,
+    googleId?: string,                               //!optional that each user can have or it cannot have 
+    // &below is the way How I can define the method in the interface 
+    startTrail: () => string,    //^ this method should return the string hence it in mensioned in the interface its return type checking 
+
+    // lets say for user I want to give the coupon then using the following way I can add method to it 
+    // which will take the one parameter that is couponName 
+
+    getCoupon: (couponName: string) => number
+}
+
+
+//!==================================== re-opening of the interface =================================================
+
+// !re-opening of the interface : means adding the more properties and methods to it after its declaration that it 
+
+interface User {
+    userLocation: string
+}
+
+
+
+// now lets create the Newuser of the type User 
+
+const newUser: User = {
+    dbId: 10,
+    name: "Manoj",
+    userId: 1245,
+    userEmail: "abc@gmail.com",
+    userLocation: "mumbai",
+    startTrail: () => {
+        return "trail is started"
+    },
+    getCoupon: (couponName: string) => {
+        // Any string is accepted for `couponName`
+        console.log(`Coupon applied: ${couponName}`);
+        // now I want to give the 50 % off 
+        return 50;
+    }
+
+}
+
+// newUser.dbId = 45;   //^throw the error 
+
+
+// Example usage
+console.log(newUser.getCoupon("React-Native-Course")); // Works with any string
+console.log(newUser.getCoupon("JavaScript-Course"));    // Works with any string
+
+
+console.log(newUser);
+
+
+
+
+//! ======================================= interface provides the inheritance ==================================
+// I want the Admin should have its own properties and also it should have prperties of the user also so I will inherit the all the properties of the User using extends 
+
+interface Admin extends User {  //^here I am inheriting the all user properties of User to Admin 
+    adminId: string,
+
+}
+
+// ^ lets assume there is the admin with the name manoj 
+
+const newAdmin: Admin
+    = {
+    adminId: "7854",
+    dbId: 12,
+    name: "Rohit",
+    userId: 45,
+    userEmail: "abd@gmail.com",
+    userLocation: "chennai",
+    startTrail: () => {
+        return "trail is started"
+    },
+    getCoupon: (couponName: string) => {
+        // Any string is accepted for `couponName`
+        console.log(`Coupon applied: ${couponName}`);
+        // now I want to give the 50 % off 
+        return 80;
+    }
+}
+
+
+console.log("newAdmin", newAdmin);
+
+newAdmin.getCoupon("node-js");
+
+
+
+
+
+
+//================================== Classes in typescript ============================================
+
+class User {
+    userName: string
+    readonly userEmail: string
+    constructor(userName: string, userEmail: string) {
+        this.userName = userName;
+        this.userEmail = userEmail
+    }
+}
+
+const manoj = new User("manoj", "abc@gmail.com");
+
+console.log(manoj);
+
+// ^now lets see if I will try to change the value of the userEmail typescript will restrict it from changing
+
+// manoj.userEmail = "asdf@gmail.com";     //error : Cannot assign to 'userEmail' because it is a read-only property.ts(2540)
+
+
+
+
+
+
+
+//========================================== Private / Public / Protected / getters and setters how it works in Typescript =============================================
+
+
+
+
+//! understanding the private and the public and protected how it works in the typescript
+
+/**
+*!Note : 
+    1) public : 
+                if you make any property as the public then it can be accessible within that class and also outside the class 
+
+     
+    2)  private : 
+                if we make any property as the private then it can be accessible within the that class only but if you try to 
+                acess it or change that property value then you have to use the getters and setters for that            
+
+
+    3) protected :
+                if we make any property as the protected then that property will be accesed within the that class and also in the class where that new Class is extending the class which has the one property as the protected , but note outside the class that property anywhere will be not accessible 
+ */
+
+
+// *** Public Example ***
+// Public properties can be accessed from within the class and outside the class.
+class PublicExample {
+    public name: string;
+
+    constructor(name: string) {
+        this.name = name;
+    }
+
+    public display(): string {
+        return `Hello, ${this.name}`;
+    }
+}
+
+const publicObj = new PublicExample("John");
+console.log(publicObj.name); // Accessing public property directly
+console.log(publicObj.display()); // Accessing public method
+
+
+// *** Private Example ***
+// Private properties can only be accessed within the class. To access or modify them, you need getters and setters.
+class PrivateExample {
+    private _age: number;
+
+    constructor(age: number) {
+        this._age = age;
+    }
+
+    // Getter for the private property
+    get getAge(): number {
+        return this._age;
+    }
+
+    // Setter for the private property
+    set setAge(newAge: number) {
+        if (newAge > 0) {
+            this._age = newAge;
+        } else {
+            console.log("Age must be a positive number");
+        }
+    }
+}
+
+const privateObj = new PrivateExample(25);
+console.log(privateObj.getAge); // Accessing private property via getter
+privateObj.setAge = 30; // Modifying private property via setter
+console.log(privateObj.getAge); // Accessing modified value
+privateObj.setAge = -5; // Trying to set an invalid value
+
+
+// *** Protected Example ***
+// Protected properties can be accessed within the class and in derived (child) classes.
+class ProtectedExample {
+    protected secret: string;
+
+    constructor(secret: string) {
+        this.secret = secret;
+    }
+
+    protected revealSecret(): string {
+        return `The secret is: ${this.secret}`;
+    }
+}
+
+class DerivedProtectedExample extends ProtectedExample {
+    public showSecret(): string {
+        // Accessing protected property and method in a derived class
+        return this.revealSecret();
+    }
+}
+
+const protectedObj = new DerivedProtectedExample("My Secret");
+console.log(protectedObj.showSecret()); // Accessing protected property via child class method
+// protectedObj.secret; // Error: Property 'secret' is protected and only accessible within class or derived class
+
+
+
+
+
+
+
+//=========================================== Generics in the Typescript ===================================
+
+
+
+
+
+//! Learning the how generics helps to do the type checking means how it blocks the type once it receive
+
+
+//^Why to use the generics in the typescript :
+/**
+    1) Generics in TypeScript are used to create //**reusable, flexible, and type-safe components**, functions,
+    and classes. They allow developers to define a component or function
+    that can work with multiple types while still enforcing type safety.
+
+    2) if we use the generics while creating the componenets or the functions or classes then the it becomes more type safe means the
+        whatever the user will pass the data that type of data will get locked and that type of the data will only get returned
+
+    3) When you use generics, the type of data passed to a function, class, or component gets "locked in" based on the type provided by the user.
+
+
+    4) This ensures that the same type is used consistently throughout the function or class, preventing type mismatches.
+
+    5) to understand the other developers that the type we have given using the generics for that we use the <T ,> (this represent it is quama)
+
+*/
+
+
+// ^lets build some re-usable componenets with the generics
+
+// *Scenario 1 
+
+// first lets see the normal way how we were giving the type checking for the functions using the types like number or string or any 
+// &below function is like explicit we have difine the type it should take the argument in the number and also return the number data-type 
+
+function identify1(argument: number): number {
+    return argument;
+}
+
+
+// *Scenario 2 
+
+// suppose I want that function should take the what the user will send the data of whichever type and it should lock that data-type and same type of data should get returned
+// & then I have to go with the generics               
+
+// !Syntax of the using the generics              
+
+function identify2<T,>(argument: T): T {  //*here this function will take the data of the type that user will send and the same type will be locked and then same data of the same type will be returned that is great  
+    return argument;
+}
+
+
+
+// now lets see how to create the array  of the particular type  
+
+const score: Array<number> = [];
+const names: Array<string> = [];
+
+
+// ^now lets create the few more functions to understand the generics in detail how it works and all
+
+
+//!normal way 
+
+function identityOne(val: boolean | number): boolean | number {
+    return val;
+}
+
+
+// !using any (That I should not prefer)
+
+function identityTwo(val: any): any {
+    return val;
+}
+
+// !now using the generics by the types that will come from theuser that type it will take that will get locked and the same type of the data will get returned over here 
+//* it works like any but not exactlly like any means it will take the any type of the data but once one typeof the data is taken then it will lock that type and it will return the same type of data 
+
+
+function identityThree<T,>(val: T): T {
+    return val;
+}
+
+
+let data = identityThree(85);   //*now it will take the number as the type and it will block that type and return the same type 
+
+console.log("data : ", data);
+
+console.log(typeof data);             //*here it will return the same type only 
+
+
+
+
+//!if I want to create the my own Type then using below I can do 
+
+// *Defining the interface
+interface Bootle {
+    brand: string;
+    type: number;
+}
+
+// *Generic function using the `Bootle` interface
+function identityFour<T extends Bootle>(item: T): T {    //here the whaterver the type will be decided by user that will extends Bootle interface 
+    console.log(`Brand: ${item.brand}, Type: ${item.type}`);
+    return item;
+}
+
+// *Usage
+const myBootle = { brand: "Coca-Cola", type: 1 };
+identityFour(myBootle); // Logs: Brand: Coca-Cola, Type: 1
+
+
+
+
+
+
+//^================================ Generics in Array and Arrow functions in Typescript ============================
+
+//*with names function 
+
+function getSearchProducts<T>(products: T[]): T {  //means it should retrun the one of the element from that array itself 
+    // lets suppose I am doing the some databse operation 
+    const myIndex = 3;
+    return products[myIndex];  //!here I am returning the one of the product from the products Array 
+}
+
+
+//* lets try the same with the arrow functions 
+
+const getMoreSerachProducts = <T>(products: T[]): T => {
+    // lets suppose I am doing the some databse operation 
+    const myIndex = 5;
+    return products[myIndex];  //!here I am returning the one of the product from the products Array 
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//============================================= Generic Classes in Typescript =====================================
+
+
+
+
+
+//*==================================== Generic Classes in Typescript ===================================
+
+//first understand the how extends works in generics by taking the exmple of the function 
+
+function newFunction<T, U extends number>(value1: T, value2: U): object {
+    return {
+        value1,
+        value2
+    }
+}
+
+// calling the above function 
+// newFunction(75, "85");  //!this will throw the error because I am extending the number type which not satify the rule of the generics 
+
+
+let newObject = newFunction(75, 99);
+
+console.log("newObject : ", newObject);
+
+
+
+// !Another example using the interface 
+// !this will be usefull while designing the complex things 
+
+interface database {
+    connection: string,
+    userName: string,
+    password: string
+}
+
+
+
+function myFunction<T, U extends database>(value1: T, value2: U): object {
+    return {
+        value1,
+        value2
+    }
+}
+
+
+myFunction(45, { connection: "connected", userName: "user1", password: "78541" });
+
+
+
+
+
+
+
+
+
+//!now see actual how the generics works on the selling the courses and quizes 
+
+interface Quize {
+    name: string,
+    type: string
+}
+
+
+interface Course {
+    name: string,
+    author: string,
+    subject: string
+}
+// ! Example of the generic class 
+// ! now creating the class where I am taking the T as the generic 
+
+class Sellable<T> {
+    public cart: T[] = []; // Instance property of type T[]
+
+    addToCart(product: T) {
+        this.cart.push(product);
+    }
+
+    // Instance getter for accessing the cart
+    get cartArray() {
+        return this.cart;
+    }
+}
+
+// Example Usage
+const sellableInstance = new Sellable<string>();
+sellableInstance.addToCart("Product 1");
+sellableInstance.addToCart("Product 2");
+
+console.log("cart array: ", sellableInstance.cartArray); // Output: ["Product 1", "Product 2"]
+
+
+
+
+export { }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//=============================== Type Narrowing in typescript ==================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+//=========================== How to implements works on the Interface and also How Abstract class works ============================================= 
+
+
+skipping this for now continuing with the genrics and how it works and few more concepts then will be coming back to this concepts again and learning it neatlly  
+
+
+
+
 
