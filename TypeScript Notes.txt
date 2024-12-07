@@ -1417,28 +1417,88 @@ export { }
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 //=============================== Type Narrowing in typescript ==================================
 
+Concepts Covered Are : 
+                    1) typeof type guards
+                    2) instanceof narrowing
+                    3) Using type predicates
+                    4) Discriminated unions
+                    5) The never type (Exhaustiveness checking)
 
 
+==================== Short overview of type narrowing in typescript how it works and why to use it and when to use it ==========================
 
+// 🌟 What is Type Narrowing in TypeScript?
+// Type narrowing is the process of refining a variable's type 
+// to a more specific type based on conditions in your code. 
+// It ensures safer and more precise operations.
 
+// 📌 Example:
+function printLength(value: string | number) {
+  // 🔍 Type Guard: Checking the type of `value`
+  if (typeof value === "string") {
+    // ✅ TypeScript knows `value` is a string here
+    console.log(value.length); // Safe to use `length`
+  } else {
+    // ✅ TypeScript knows `value` is a number here
+    console.log(value.toFixed(2)); // Safe to use `toFixed`
+  }
+}
 
+// 🚀 How Type Narrowing Works:
+// 1️⃣ **Type Guards**: Use `typeof`, `instanceof`, or custom functions 
+//     to refine the type.
+//     Example: `if (typeof value === "string")`
+//
+// 2️⃣ **Control Flow Analysis**: TypeScript tracks how the type of 
+//     a variable changes as the code executes.
 
+// 🔎 Examples of Type Narrowing:
+
+// 1️⃣ Using `typeof`:
+function handleInput(input: string | number) {
+  if (typeof input === "string") {
+    console.log("It's a string:", input.toUpperCase());
+  } else {
+    console.log("It's a number:", input.toFixed(2));
+  }
+}
+
+// 2️⃣ Using `instanceof`:
+class Dog {
+  bark() {
+    console.log("Woof!");
+  }
+}
+class Cat {
+  meow() {
+    console.log("Meow!");
+  }
+}
+function makeSound(animal: Dog | Cat) {
+  if (animal instanceof Dog) {
+    animal.bark(); // ✅ Narrowed to Dog
+  } else {
+    animal.meow(); // ✅ Narrowed to Cat
+  }
+}
+
+// 3️⃣ Using Custom Type Guard Functions:
+type Fish = { swim: () => void };
+type Bird = { fly: () => void };
+
+function isFish(pet: Fish | Bird): pet is Fish {
+  return (pet as Fish).swim !== undefined;
+}
+
+function move(pet: Fish | Bird) {
+  if (isFish(pet)) {
+    pet.swim(); // ✅ Narrowed to Fish
+  } else {
+    pet.fly(); // ✅ Narrowed to Bird
+  }
+}
 
 
 
